@@ -3,38 +3,71 @@
     <main class="l-main">
       <div class="l-main--inner">
 
-        <section v-if="isHidden" class="o-panel o-panel__home">
-          <div class="o-panel--top u-background-color--maroon">
+        <article v-if="isHidden" class="c-panel c-panel__home">
+          <header class="c-panel__hero">
             <img src="./assets/logo.svg" alt="2020 Revised">
+          </header>
+          <div class="c-panel__content">
+            <p class="o-heading--m">2020 should be left on the cutting room floor. Still, there are a few bright bits worth saving. Some quick revisions could make a world of difference for the year ahead.</p>
           </div>
-          <div class="o-panel--bottom u-spacing">
-            <p>2020 may not have been all that we hoped for, so lets make some revisions for the coming year.</p>
+          <footer>
             <button v-on:click="isHidden = false" class="o-button">Start revising!</button>
-          </div>
-        </section>
+          </footer>
+        </article>
 
-        <section v-if="!isHidden">
-          <div class="c-resolutions" v-if="resolutionIndex < quiz.resolutions.length" v-bind:key="resolutionIndex">
-            <section class="o-panel o-panel__resolutions">
-              <header>Progress Bar</header>
-              <div class="o-panel--top u-background-color--maroon u-color--pink">
-                <h1>{{ quiz.resolutions[resolutionIndex].statement }} <span class="u-strikethrough">{{ quiz.resolutions[resolutionIndex].habit }}</span>.</h1>
-              </div>
-              <div class="o-panel--bottom" v-bind:key="revision.id" v-for="revision in quiz.resolutions[resolutionIndex].revisions">
-                <button>{{ revision.button }}</button>
-                <div class="">
+        <article v-if="!isHidden && resolutionIndex < quiz.resolutions.length" v-bind:key="resolutionIndex" class="c-panel c-panel__resolutions">
+          <header class="c-panel__hero">
+            <div class="o-counter">{{ resolutionIndex + 1 }}/{{ quiz.resolutions.length }}</div>
+            <h2 class="o-heading--l">{{ quiz.resolutions[resolutionIndex].statement }} <span class="u-strikethrough">{{ quiz.resolutions[resolutionIndex].habit }}</span>.</h2>
+          </header>
+          <div class="c-panel__content">
+            <div class="c-panel__options" v-if="!isRevised">
+              <button
+              :id="'option-' + resolutionIndex + '-' + revision.id"
+              class="o-button--tertiary"
+              :class="{'is-active':isSelected == index + 1}"
+              v-bind:key="revision.id"
+              v-for="(revision, index) in quiz.resolutions[resolutionIndex].revisions"
+              @click="isSelected = index + 1"
+              >{{ revision.button }}</button>
+            </div>
+            <div class="c-panel__description" v-if="isRevised">
+              <div
+              :class="'option-' + resolutionIndex + '-' + revision.id"
 
-                  <button v-on:click="next">Next</button>
-                </div>
-                <footer>Ashton</footer>
-              </div>
-            </section>
+              v-bind:key="revision.id"
+              v-for="revision in quiz.resolutions[resolutionIndex].revisions"
+              v-html="revision.description"></div>
+            </div>
           </div>
+          <footer>
+            <button class="o-button--secondary" v-if="!isRevised" v-on:click="isRevised = true" :disabled="isSelected <= 0">Revise it!</button>
+            <button class="o-button--secondary" v-on:click="next" v-if="isRevised">Next</button>
+            <div class="o-branding">Created by <img src="./assets/logo-ashton.svg" alt="Ashton Design" /></div>
+          </footer>
+        </article>
 
-          <div v-else-if="resolutionIndex >= quiz.resolutions.length" v-bind:key="resolutionIndex">
-            <p>Completed</p>
+        <article v-if="resolutionIndex >= quiz.resolutions.length" v-bind:key="resolutionIndex" class="c-panel c-panel__results">
+          <header class="c-panel__hero">
+            <div class="c-card">
+              <img src="./assets/logo.svg" alt="2020 Revised">
+              <p>Watch out world! This ____ superstar is ready to ____ and take 2021 by ____ storm. I’ll start by ____ and promise to always have ____ at the ready.  Here’s to a happier new year!</p>
+            </div>
+          </header>
+          <div class="c-panel__content">
+            <h3 class="o-heading--m">All of us at Ashton Design hope your new year revisions bring you a happy and healthier 2021.</h3>
           </div>
-        </section>
+          <footer>
+            <div class="c-social-share">
+              <a href="">Facebook</a>
+              <a href="">Twitter</a>
+              <a href="">Email</a>
+              <a href="">SMS</a>
+            </div>
+            <button class="o-button">Share Your Revisions!</button>
+            <div class="o-branding">Created by <img src="./assets/logo-ashton.svg" alt="Ashton Design" /></div>
+          </footer>
+        </article>
 
       </div>
     </main>
@@ -46,33 +79,33 @@ var quiz = {
   resolutions: [
     {
       id: 1,
-      statement: "Every night before bed I will",
-      habit: "binge Netflix",
+      statement: "This year I will spend more time",
+      habit: "quarantining",
       button_text: "Next",
       revisions: [
         {
           id: 1,
-          button: "read a book",
-          description: "Read, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          value: "read a book"
+          button: "Reconnecting with family",
+          description: "<h4>Title</h4><p>Read, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "Reconnecting with family"
         },
         {
           id: 2,
-          button: "meditate",
+          button: "Exercising",
           description: "Meditate, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          value: "meditate"
+          value: "Exercising"
         },
         {
           id: 3,
-          button: "drink a cup of tea",
+          button: "Outside",
           description: "Drink, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          value: "drink a cup of tea"
+          value: "Outside"
         },
         {
           id: 4,
-          button: "stretch",
+          button: "Drinking better wine",
           description: "Stretch, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          value: "stretch"
+          value: "Drinking better wine"
         }
       ]
     },
@@ -110,7 +143,6 @@ var quiz = {
     }
   ]
 };
-var userResponseSkelaton = Array(quiz.resolutions.length).fill(null);
 
 export default {
   name: "App",
@@ -118,19 +150,29 @@ export default {
     return {
       quiz: quiz,
       resolutionIndex: 0,
-      userResponses: userResponseSkelaton,
-      isHidden: true
+      isHidden: true,
+      isRevised: false,
+      isSelected: 0
+    }
+  },
+  computed: {
+    disabled() {
+      return this.selected.length < 1; // or === 0
     }
   },
   methods: {
     restart() {
       this.resolutionIndex = 0;
-      this.userResponses = Array(this.quiz.resolutions.length).fill(null);
     },
     next() {
       if (this.resolutionIndex < this.quiz.resolutions.length) {
         this.resolutionIndex++;
       }
+      this.isSelected = 0;
+      this.isRevised = false;
+    },
+    revise() {
+
     }
   }
 }

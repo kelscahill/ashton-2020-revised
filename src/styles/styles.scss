@@ -68,6 +68,15 @@ button {
   width: auto;
 }
 
+.o-buttons button {
+  background-color: $c-maroon;
+  color: $c-pink;
+
+  &.is-active {
+    background-color: $c-red;
+  }
+}
+
 .o-panel {
   display: flex;
   flex-direction: column;
