@@ -3,70 +3,81 @@
     <main class="l-main">
       <div class="l-main--inner">
 
-        <article v-if="isHidden" class="c-panel c-panel__home">
+        <article
+        v-if="isHidden"
+        class="c-panel c-panel--home">
           <header class="c-panel__hero">
-            <img src="./assets/logo.svg" alt="2020 Revised">
+            <Logo />
           </header>
           <div class="c-panel__content">
-            <p class="o-heading--m">2020 should be left on the cutting room floor. Still, there are a few bright bits worth saving. Some quick revisions could make a world of difference for the year ahead.</p>
+            <div class="c-panel__content-body u-spacing">
+              <Branding />
+              <div class="o-heading--l">202<span class="u-xout">0</span> should be left on the cutting room floor. Still, there are a few bright bits worth saving. Some quick <div class="u-underline"><span>revisions</span></div> could make a world of difference for the year ahead.</div>
+            </div>
+            <footer class="c-panel__content-footer">
+              <button v-on:click="isHidden = false" class="o-button--primary animate__animated animate__pulse animate__delay-3s">Start revising!</button>
+            </footer>
           </div>
-          <footer>
-            <button v-on:click="isHidden = false" class="o-button">Start revising!</button>
-          </footer>
         </article>
 
-        <article v-if="!isHidden && resolutionIndex < quiz.resolutions.length" v-bind:key="resolutionIndex" class="c-panel c-panel__resolutions">
+        <article
+        v-if="!isHidden && resolutionIndex < quiz.resolutions.length"
+        class="c-panel c-panel--resolutions animate__animated animate__fadeIn"
+        :class="{'is-revised':isRevised}">
           <header class="c-panel__hero">
             <div class="o-counter">{{ resolutionIndex + 1 }}/{{ quiz.resolutions.length }}</div>
-            <h2 class="o-heading--l">{{ quiz.resolutions[resolutionIndex].statement }} <span class="u-strikethrough">{{ quiz.resolutions[resolutionIndex].habit }}</span>.</h2>
+            <h2 class="o-heading--xl">{{ quiz.resolutions[resolutionIndex].statement }} <div class="o-habit animate__animated animate__pulse" v-html="isRevised ? results.button[resolutionIndex] : quiz.resolutions[resolutionIndex].habit"></div>.</h2>
           </header>
           <div class="c-panel__content">
-            <div class="c-panel__options" v-if="!isRevised">
-              <button
-              :id="'option-' + resolutionIndex + '-' + revision.id"
-              class="o-button--tertiary"
-              :class="{'is-active':isSelected == index + 1}"
-              v-bind:key="revision.id"
-              v-for="(revision, index) in quiz.resolutions[resolutionIndex].revisions"
-              @click="isSelected = index + 1"
-              >{{ revision.button }}</button>
+            <div class="c-panel__content-body">
+              <div class="c-panel__options" v-if="!isRevised">
+                <button
+                class="o-button--tertiary"
+                v-bind:key="revision.id"
+                v-for="(revision, index) in quiz.resolutions[resolutionIndex].revisions"
+                v-on:click="selected(index)"
+                :class="{'is-active':isSelected == index + 1}"
+                :data-button="revision.button"
+                :data-value="revision.value"
+                :data-description="revision.description"
+                v-html="revision.button"
+                ></button>
+              </div>
+              <div class="c-panel__description u-spacing animate__animated animate__zoomIn" v-if="isRevised" v-html="results.description[resolutionIndex]"></div>
             </div>
-            <div class="c-panel__description" v-if="isRevised">
-              <div
-              :class="'option-' + resolutionIndex + '-' + revision.id"
-
-              v-bind:key="revision.id"
-              v-for="revision in quiz.resolutions[resolutionIndex].revisions"
-              v-html="revision.description"></div>
-            </div>
+            <footer class="c-panel__content-footer">
+              <button class="o-button--secondary" v-if="!isRevised" v-on:click="revise(resolutionIndex)" :disabled="isSelected <= 0">{{ isSelected ? 'Revise it!' : 'Choose a Revision above' }}</button>
+              <button class="o-button--secondary" v-on:click="next" v-if="isRevised">{{ quiz.resolutions[resolutionIndex].button_text }}</button>
+              <Branding />
+            </footer>
           </div>
-          <footer>
-            <button class="o-button--secondary" v-if="!isRevised" v-on:click="isRevised = true" :disabled="isSelected <= 0">Revise it!</button>
-            <button class="o-button--secondary" v-on:click="next" v-if="isRevised">Next</button>
-            <div class="o-branding">Created by <img src="./assets/logo-ashton.svg" alt="Ashton Design" /></div>
-          </footer>
         </article>
 
-        <article v-if="resolutionIndex >= quiz.resolutions.length" v-bind:key="resolutionIndex" class="c-panel c-panel__results">
+        <article
+        v-if="resolutionIndex >= quiz.resolutions.length"
+        class="c-panel c-panel--results">
           <header class="c-panel__hero">
-            <div class="c-card">
-              <img src="./assets/logo.svg" alt="2020 Revised">
-              <p>Watch out world! This ____ superstar is ready to ____ and take 2021 by ____ storm. I’ll start by ____ and promise to always have ____ at the ready.  Here’s to a happier new year!</p>
+            <div class="c-results-card">
+              <img src="./assets/logo.svg" alt="2020 Revised" class="c-results-card__logo">
+              <div class="c-results-card__body o-heading--m">Watch out world! This <div class="u-strike" v-html="quiz.resolutions[0].habit"></div> <div class="u-underline" v-html="results.value[0]"></div> superstar is ready to <div class="u-strike" v-html="quiz.resolutions[1].habit"></div> <div class="u-underline" v-html="results.value[1]"></div> and take 2021 by <div class="u-strike" v-html="quiz.resolutions[2].habit"></div> <div class="u-underline" v-html="results.value[2]"></div> storm. I’ll start by <div class="u-strike" v-html="quiz.resolutions[3].habit"></div> <div class="u-underline" v-html="results.value[3]"></div> and promise to always have <div class="u-strike" v-html="quiz.resolutions[4].habit"></div> <div class="u-underline" v-html="results.value[4]"></div> at the ready.  Here’s to a happier new year!</div>
+              <div class="c-results-card__website">2020Revised.com</div>
             </div>
           </header>
           <div class="c-panel__content">
-            <h3 class="o-heading--m">All of us at Ashton Design hope your new year revisions bring you a happy and healthier 2021.</h3>
-          </div>
-          <footer>
-            <div class="c-social-share">
-              <a href="">Facebook</a>
-              <a href="">Twitter</a>
-              <a href="">Email</a>
-              <a href="">SMS</a>
+            <div class="c-panel__content-body">
+              <h3 class="o-heading--l">All of us at Ashton Design hope your new year revisions bring you a happy and healthier 2021.</h3>
             </div>
-            <button class="o-button">Share Your Revisions!</button>
-            <div class="o-branding">Created by <img src="./assets/logo-ashton.svg" alt="Ashton Design" /></div>
-          </footer>
+            <footer class="c-panel__content-footer">
+              <div class="c-social-share">
+                <a href="">Facebook</a>
+                <a href="">Twitter</a>
+                <a href="">Email</a>
+                <a href="">SMS</a>
+              </div>
+              <button class="o-button">Share Your Revisions!</button>
+              <Branding />
+            </footer>
+          </div>
         </article>
 
       </div>
@@ -80,90 +91,190 @@ var quiz = {
     {
       id: 1,
       statement: "This year I will spend more time",
-      habit: "quarantining",
+      habit: "<span>quarantining</span>",
       button_text: "Next",
       revisions: [
         {
           id: 1,
-          button: "Reconnecting with family",
-          description: "<h4>Title</h4><p>Read, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
-          value: "Reconnecting with family"
+          button: "<span>reconnecting</span><span>with family</span>",
+          description: "<h4><span>reconnecting</span><span>with family</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>reconnecting</span><span>with family</span>"
         },
         {
           id: 2,
-          button: "Exercising",
-          description: "Meditate, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          value: "Exercising"
+          button: "<span>exercising</span>",
+          description: "<h4><span>exercising</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>exercising</span>"
         },
         {
           id: 3,
-          button: "Outside",
-          description: "Drink, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          value: "Outside"
+          button: "<span>outside</span>",
+          description: "<h4><span>outside</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>outside</span>"
         },
         {
           id: 4,
-          button: "Drinking better wine",
-          description: "Stretch, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          value: "Drinking better wine"
+          button: "<span>drinking</span><span>better wine</span>",
+          description: "<h4><span>drinking</span><span>better wine</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>drinking</span><span>better wine</span>"
         }
       ]
     },
     {
       id: 2,
-      statement: "Once a week I will",
-      habit: "finish a bottle of wine",
-      button_text: "Keep going",
+      statement: "Every night before bed I will",
+      habit: "<span>binge</span><span>Netflix</span>",
+      button_text: "Next",
       revisions: [
         {
           id: 1,
-          button: "call my parents",
-          description: "Call, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          value: "call my parents"
+          button: "<span>read a</span><span>book</span>",
+          description: "<h4><span>read a</span><span>book</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>read a</span><span>book</span>"
         },
         {
           id: 2,
-          button: "run 10 miles",
-          description: "Run, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          value: "run 10 miles"
+          button: "<span>drink a cup</span><span>of tea</span>",
+          description: "<h4><span>drink a cup</span><span>of tea</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>drink a cup</span><span>of tea</span>"
         },
         {
           id: 3,
-          button: "clean my room",
-          description: "Clean, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          value: "clean my room"
+          button: "<span>turn off</span><span>my phone</span>",
+          description: "<h4><span>turn off</span><span>my phone</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>turn off</span><span>my phone</span>"
         },
         {
           id: 4,
-          button: "turn off my phone",
-          description: "Turn off my phone, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          value: "turn off my phone"
+          button: "<span>practice my</span><span>dance moves</span>",
+          description: "<h4><span>practice my</span><span>dance moves</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>practice my</span><span>dance moves</span>"
+        }
+      ]
+    },
+    {
+      id: 3,
+      statement: "I like to think of myself as",
+      habit: "<span>contagious</span>",
+      button_text: "Next",
+      revisions: [
+        {
+          id: 1,
+          button: "<span>relaxed</span>",
+          description: "<h4><span>relaxed</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>relaxed</span>"
+        },
+        {
+          id: 2,
+          button: "<span>lively</span>",
+          description: "<h4><span>lively</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>lively</span>"
+        },
+        {
+          id: 3,
+          button: "<span>intelligent</span>",
+          description: "<h4><span>intelligent</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>intelligent</span>"
+        },
+        {
+          id: 4,
+          button: "<span>healthy</span>",
+          description: "<h4><span>healthy</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>healthy</span>"
+        }
+      ]
+    },
+    {
+      id: 4,
+      statement: "One habit I’ll keep is",
+      habit: "<span>ordering</span><span>takeout</span>",
+      button_text: "Next",
+      revisions: [
+        {
+          id: 1,
+          button: "<span>making my bed</span>",
+          description: "<h4><span>making my bed</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>making my bed</span>"
+        },
+        {
+          id: 2,
+          button: "<span>meditating</span><span>more</span>",
+          description: "<h4><span>meditating</span><span>more</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>meditating</span><span>more</span>"
+        },
+        {
+          id: 3,
+          button: "<span>showering</span><span>regularly</span>",
+          description: "<h4><span>showering</span><span>regularly</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>showering</span><span>regularly</span>"
+        },
+        {
+          id: 4,
+          button: "<span>reading my</span><span>horoscope</span>",
+          description: "<h4><span>reading my</span><span>horoscope</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>reading my</span><span>horoscope</span>"
+        }
+      ]
+    },
+    {
+      id: 5,
+      statement: "And I’ll try to never run short on",
+      habit: "<span>toilet paper</span>",
+      button_text: "Next",
+      revisions: [
+        {
+          id: 1,
+          button: "<span>self-love</span>",
+          description: "<h4><span>self-love</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>self-love</span>"
+        },
+        {
+          id: 2,
+          button: "<span>funny memes</span>",
+          description: "<h4>funny memes</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>funny memes</span>"
+        },
+        {
+          id: 3,
+          button: "<span>empathy</span>",
+          description: "<h4><span>empathy</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>empathy</span>"
+        },
+        {
+          id: 4,
+          button: "<span>phone calls</span><span>to friends</span>",
+          description: "<h4><span>phone calls</span><span>to friends</span></h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+          value: "<span>phone calls</span><span>to friends</span>"
         }
       ]
     }
   ]
 };
 
+import Logo from './components/Logo.vue'
+import Branding from './components/Branding.vue'
+
 export default {
   name: "App",
+  components: {
+    Logo,
+    Branding
+  },
   data() {
     return {
       quiz: quiz,
       resolutionIndex: 0,
       isHidden: true,
       isRevised: false,
-      isSelected: 0
-    }
-  },
-  computed: {
-    disabled() {
-      return this.selected.length < 1; // or === 0
+      isSelected: 0,
+      results: {
+        button: [],
+        value: [],
+        description: []
+      }
     }
   },
   methods: {
-    restart() {
-      this.resolutionIndex = 0;
-    },
     next() {
       if (this.resolutionIndex < this.quiz.resolutions.length) {
         this.resolutionIndex++;
@@ -171,8 +282,14 @@ export default {
       this.isSelected = 0;
       this.isRevised = false;
     },
-    revise() {
-
+    selected(index) {
+      this.isSelected = index + 1;
+    },
+    revise(index) {
+      this.isRevised = true;
+      this.results.button[index] = document.querySelector('.o-button--tertiary.is-active').dataset.button;
+      this.results.value[index] = document.querySelector('.o-button--tertiary.is-active').dataset.value;
+      this.results.description[index] = document.querySelector('.o-button--tertiary.is-active').dataset.description;
     }
   }
 }

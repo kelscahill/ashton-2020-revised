@@ -1,100 +1,38 @@
+/* ------------------------------------ *\
+    $SETTINGS
+\* ------------------------------------ */
 @import "settings.variables";
+
+/* ------------------------------------ *\
+    $TOOLS
+\* ------------------------------------ */
 @import "tools.mixins";
 @import "tools.include-media";
+
+/* ------------------------------------ *\
+    $GENERIC
+\* ------------------------------------ */
 @import "generic.reset";
+
+/* ------------------------------------ *\
+    $BASE
+\* ------------------------------------ */
+@import "base.main";
+
+/* ------------------------------------ *\
+    $MODIFIERS
+\* ------------------------------------ */
 @import "modifier.spacing";
 @import "modifier.colors";
+@import "modifier.animations";
 
-body {
-  background-color: $c-pink;
-  color: $c-black;
-  font-family: $ff-font--primary;
-  font-size: $body-font-size;
-}
+/* ------------------------------------ *\
+    $OBJECTS
+\* ------------------------------------ */
+@import "objects.headings";
+@import "objects.buttons";
 
-.l-wrap {
-  position: relative;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.l-main {
-  text-align: center;
-  position: relative;
-
-  @include media('>medium') {
-    &::before {
-      content: "";
-      display: block;
-      position: absolute;
-      pointer-events: none;
-      background: url('../assets/phone.svg') center center no-repeat;
-      background-size: 320px auto;
-      width: 320px;
-      height: 660px;
-      top: 0;
-      left: 0;
-      z-index: 1;
-    }
-
-    &--inner {
-      width: 320px;
-      height: 660px;
-      padding: 14px;
-      border-radius: 50px;
-      overflow: scroll;
-    }
-  }
-}
-
-button {
-  cursor: pointer;
-  outline: 0;
-  border: 0;
-  padding: $space;
-  text-transform: uppercase;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.o-button {
-  border-radius: 50px;
-  background-color: $c-red;
-  color: $c-pink;
-  display: table;
-  width: auto;
-}
-
-.o-buttons button {
-  background-color: $c-maroon;
-  color: $c-pink;
-
-  &.is-active {
-    background-color: $c-red;
-  }
-}
-
-.o-panel {
-  display: flex;
-  flex-direction: column;
-
-  @include media('>medium') {
-    height: 660px;
-  }
-
-  &--top {
-    justify-content: flex-end;
-    text-align: left;
-  }
-
-  > * {
-    padding: $space;
-    height: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-}
+/* ------------------------------------ *\
+    $COMPONENTS
+\* ------------------------------------ */
+@import "component.panel";

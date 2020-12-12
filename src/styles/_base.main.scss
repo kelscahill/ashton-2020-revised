@@ -1,0 +1,48 @@
+body {
+  background-color: $c-pink;
+  color: $c-black;
+  font-family: $font-primary;
+  font-size: $body-font-size;
+}
+
+.l-wrap {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include media('>medium') {
+    padding: $space;
+  }
+}
+
+.l-main {
+  text-align: center;
+  position: relative;
+
+  @include media('>medium') {
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      pointer-events: none;
+      background: url('../assets/device.svg') center center no-repeat;
+      background-size: $device-width auto;
+      width: $device-width;
+      height: $device-height;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    &--inner {
+      width: $device-width;
+      height: $device-height;
+      background-color: $c-black;
+      padding: $space;
+      border-radius: 70px;
+      overflow: scroll;
+    }
+  }
+}

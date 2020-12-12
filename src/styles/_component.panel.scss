@@ -1,0 +1,191 @@
+/**
+ * Panel
+ */
+.c-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  background-color: $c-pink;
+
+  @include media('>medium') {
+    height: calc(#{$device-height} - #{$space-double});
+  }
+
+  > * {
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+
+    @include media('>medium') {
+      min-height: calc((#{$device-height} - #{$space-double}) / 2);
+    }
+  }
+
+  &__hero {
+    background-color: $c-maroon;
+    color: $c-pink;
+    align-items: flex-start;
+    justify-content: space-between;
+    text-align: left;
+    padding: $space-double $space;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    &-footer {
+      padding: $space-double $space $space $space;
+    }
+  }
+
+  &__options {
+    border-bottom: 1px solid $c-pink;
+  }
+
+  &__description {
+    padding: $space;
+    text-align: left;
+
+    h4 {
+      @include o-heading--s;
+      @include u-underline;
+      display: table;
+      line-height: 1.8;
+
+      span {
+        color: $c-black;
+      }
+    }
+  }
+}
+
+/**
+ * Panel - Home
+ */
+.c-panel--home {
+  .c-panel__hero {
+    justify-content: flex-end;
+  }
+
+  .c-panel__content {
+    padding: 0 $space $space-double $space;
+  }
+
+  .u-underline span {
+    color: $c-black;
+  }
+
+  .o-branding {
+    color: $c-black;
+
+    svg path {
+      fill: $c-black;
+    }
+  }
+}
+
+/**
+ * Panel - Resolutions
+ */
+.c-panel--resolutions {
+  background-color: $c-maroon;
+
+  &.is-revised {
+    background-color: $c-pink;
+
+    .o-habit {
+      @include u-underline;
+
+      span::before,
+      span::after {
+        top: 9px;
+        background-size: auto 10px;
+      }
+    }
+  }
+
+  &:not(.is-revised) {
+    .o-habit {
+      @include u-strike;
+
+      span {
+        margin-right: 9px;
+      }
+
+      span::before,
+      span::after {
+        top: 7px;
+        background-size: auto 10px;
+      }
+    }
+  }
+}
+
+/**
+ * Panel - Results
+ */
+.c-panel--results {
+  .c-panel__content-body {
+    padding: $space;
+  }
+}
+
+/**
+ * Results Card
+ */
+.c-results-card {
+  box-shadow: 0 0 15px rgba($c-black, 0.6);
+  background-color: $c-maroon;
+  color: $c-pink;
+  padding: $space;
+  margin: $space $space 0 $space;
+
+  &__logo {
+    width: 50%;
+    max-width: 150px;
+  }
+
+  &__body {
+    padding: $space-double 0;
+  }
+
+  &__website {
+    font-size: $font-size-xs;
+  }
+}
+
+/**
+ * Logo
+ */
+.o-logo {
+  width: 100%;
+  max-width: 335px;
+  margin: 0 auto;
+}
+
+/**
+ * Branding
+ */
+.o-branding {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $c-red;
+  margin-top: $space-double;
+  font-size: $font-size-xs;
+
+  svg {
+    width: 40px;
+    height: auto;
+    padding-left: 3px;
+  }
+}
+
+.o-counter {
+  letter-spacing: 2px;
+}
