@@ -7,13 +7,13 @@ body {
 
 .l-wrap {
   position: relative;
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  @include media('>medium') {
+  @include media(">medium") {
     padding: $space;
+    min-height: 100vh;
   }
 }
 
@@ -21,13 +21,13 @@ body {
   text-align: center;
   position: relative;
 
-  @include media('>medium') {
+  @include media(">medium") {
     &::before {
       content: "";
       display: block;
       position: absolute;
       pointer-events: none;
-      background: url('../assets/device.svg') center center no-repeat;
+      background: url("../assets/device.svg") center center no-repeat;
       background-size: $device-width auto;
       width: $device-width;
       height: $device-height;

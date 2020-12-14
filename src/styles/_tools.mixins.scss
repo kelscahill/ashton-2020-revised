@@ -48,6 +48,7 @@ span + span {
       background-repeat: no-repeat;
       background-size: auto 5px;
       background-position: left center;
+      overflow: hidden;
     }
 
     &::before {
@@ -63,6 +64,7 @@ span + span {
       background-repeat: no-repeat;
       background-size: auto 5px;
       background-position: right center;
+      overflow: hidden;
     }
   }
 }
@@ -100,6 +102,7 @@ span + span {
       background-repeat: no-repeat;
       background-size: auto 5px;
       background-position: left bottom;
+      overflow: hidden;
     }
 
     &::before {
@@ -115,6 +118,7 @@ span + span {
       background-repeat: no-repeat;
       background-size: auto 5px;
       background-position: right bottom;
+      overflow: hidden;
     }
   }
 }

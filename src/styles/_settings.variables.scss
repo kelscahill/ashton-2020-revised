@@ -31,8 +31,8 @@ $font-secondary: $ff-font--serif;
 /**
  * Common Breakpoints
  */
-$xsmall: 400px;
-$small: 550px;
+$xsmall: 320px;
+$small: 375px;
 $medium: 700px;
 $large: 850px;
 $xlarge: 1000px;
@@ -73,19 +73,39 @@ $space-quad: $space * 4;
   --font-size-s: 17px;
   --font-size-m: 22px;
   --font-size-l: 7vw;
-  --font-size-xl: 13vw;
+  --font-size-xl: 7vh;
 }
 
-// Medium Breakpoint
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 320px) {
+  :root {
+    --font-size-xs: 11px;
+    --font-size-s: 15px;
+    --font-size-m: 20px;
+    --font-size-l: 22px;
+    --font-size-xl: 38px;
+  }
+}
+
+@media screen and (min-width: 375px) {
   :root {
     --font-size-xs: 11px;
     --font-size-s: 17px;
     --font-size-m: 22px;
-    --font-size-l: 29px;
-    --font-size-xl: 54px;
+    --font-size-l: 26px;
+    --font-size-xl: 46px;
   }
 }
+
+// // Medium Breakpoint
+// @media screen and (min-width: 700px) {
+//   :root {
+//     --font-size-xs: 11px;
+//     --font-size-s: 17px;
+//     --font-size-m: 22px;
+//     --font-size-l: 29px;
+//     --font-size-xl: 54px;
+//   }
+// }
 
 $body-font-size: var(--body-font-size, 18px);
 $font-size-xs: var(--font-size-xs, 13px);
@@ -93,4 +113,3 @@ $font-size-s: var(--font-size-s, 19px);
 $font-size-m: var(--font-size-m, 22px);
 $font-size-l: var(--font-size-l, 39px);
 $font-size-xl: var(--font-size-xl, 64px);
-

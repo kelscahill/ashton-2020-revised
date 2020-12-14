@@ -5,21 +5,21 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
+  min-height: 100vh;
   background-color: $c-pink;
 
-  @include media('>medium') {
-    height: calc(#{$device-height} - #{$space-double});
+  @include media(">medium") {
+    min-height: calc(#{$device-height} - #{$space-double});
   }
 
+
   > * {
-    min-height: 50vh;
     display: flex;
     flex-direction: column;
 
-    @include media('>medium') {
-      min-height: calc((#{$device-height} - #{$space-double}) / 2);
-    }
+    // @include media(">medium") {
+    //   min-height: calc((#{$device-height} - #{$space-double}) / 2);
+    // }
   }
 
   &__hero {
@@ -28,7 +28,8 @@
     align-items: flex-start;
     justify-content: space-between;
     text-align: left;
-    padding: $space-double $space;
+    padding: $space $space $space-double $space;
+    flex: 1;
   }
 
   &__content {
@@ -36,25 +37,39 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    flex-basis: 50vh;
+
+    @include media(">medium") {
+      flex-basis: calc((#{$device-height} - #{$space-double}) / 2);
+    }
 
     &-footer {
+      width: 100%;
       padding: $space-double $space $space $space;
     }
   }
 
   &__options {
-    border-bottom: 1px solid $c-pink;
+    .o-button--tertiary:last-child {
+      border-bottom: 1px solid $c-pink;
+    }
+
+    .o-button--tertiary:last-child.is-active {
+      border-bottom: 1px solid $c-red;
+    }
   }
 
   &__description {
     padding: $space;
+    padding-bottom: 0;
     text-align: left;
 
     h4 {
       @include o-heading--s;
       @include u-underline;
+
       display: table;
-      line-height: 1.8;
+      line-height: 1.6;
 
       span {
         color: $c-black;
@@ -72,7 +87,7 @@
   }
 
   .c-panel__content {
-    padding: 0 $space $space-double $space;
+    padding: 0 $space $space $space;
   }
 
   .u-underline span {
@@ -104,6 +119,9 @@
       span::after {
         top: 9px;
         background-size: auto 10px;
+        width: 0;
+        overflow: hidden;
+        animation: width 1s forwards;
       }
     }
   }
@@ -120,7 +138,19 @@
       span::after {
         top: 7px;
         background-size: auto 10px;
+        width: 0;
+        overflow: hidden;
+        animation: width 0.5s forwards;
       }
+    }
+  }
+}
+
+@for $i from 1 to 10 {
+  .c-panel--resolutions .o-habit span:nth-child(#{$i}) {
+    &::after,
+    &::before {
+      animation-delay: $i * 0.25s;
     }
   }
 }
@@ -129,8 +159,18 @@
  * Panel - Results
  */
 .c-panel--results {
+  .c-panel__content {
+    flex-basis: auto;
+  }
+
   .c-panel__content-body {
-    padding: $space;
+    padding: 80px $space 0 $space;
+  }
+
+  @include media('>medium') {
+    .c-panel__hero {
+      flex: none;
+    }
   }
 }
 
@@ -142,7 +182,7 @@
   background-color: $c-maroon;
   color: $c-pink;
   padding: $space;
-  margin: $space $space 0 $space;
+  margin: $space $space -80px $space;
 
   &__logo {
     width: 50%;
@@ -176,7 +216,7 @@
   align-items: center;
   justify-content: center;
   color: $c-red;
-  margin-top: $space-double;
+  margin-top: 30px;
   font-size: $font-size-xs;
 
   svg {
@@ -186,6 +226,19 @@
   }
 }
 
+/**
+ * Counter
+ */
 .o-counter {
   letter-spacing: 2px;
+  margin-bottom: $space;
+}
+
+/**
+ * Social Share
+ */
+.c-social-share {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
