@@ -26,7 +26,7 @@ $ff-font--monospace: Menlo, Monaco, "Courier New", "Courier", monospace;
 
 // Theme typefaces
 $font-primary: $ff-font;
-$font-secondary: $ff-font--serif;
+$font-secondary: 'Domaine Display Medium', sans-serif;
 
 /**
  * Common Breakpoints
@@ -44,8 +44,8 @@ $breakpoints: ("xsmall": $xsmall, "small": $small, "medium": $medium, "large": $
 /**
  * Animation
  */
-$hard-ease-in: cubic-bezier(0.86, 0, 0.07, 1);
-$transition-all: all 0.23s $hard-ease-in;
+$transition-effect: cubic-bezier(0.86, 0, 0.07, 1);
+$transition-all: all 0.25s $transition-effect;
 
 /**
  * Default Spacing/Padding
@@ -88,10 +88,10 @@ $space-quad: $space * 4;
 
 @media screen and (min-width: 375px) {
   :root {
-    --font-size-xs: 11px;
-    --font-size-s: 17px;
+    --font-size-xs: 14px;
+    --font-size-s: 18px;
     --font-size-m: 22px;
-    --font-size-l: 26px;
+    --font-size-l: 30px;
     --font-size-xl: 46px;
   }
 }

@@ -17,7 +17,7 @@ h6 {
   font-weight: 600;
   font-style: normal;
   letter-spacing: normal;
-  line-height: 1;
+  line-height: 1.1;
 }
 
 .o-heading--xl {
@@ -30,7 +30,7 @@ h6 {
   font-weight: 600;
   font-style: normal;
   letter-spacing: normal;
-  line-height: 1.1;
+  line-height: 1.2;
 }
 
 .o-heading--l {
@@ -55,9 +55,8 @@ h6 {
   font-size: $font-size-s;
   font-weight: 600;
   font-style: normal;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   line-height: 1.4;
-  text-transform: uppercase;
 }
 
 .o-heading--s {

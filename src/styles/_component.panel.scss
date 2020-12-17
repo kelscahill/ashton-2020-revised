@@ -6,7 +6,7 @@
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
-  background-color: $c-pink;
+  background-color: $c-maroon;
 
   @include media(">medium") {
     min-height: calc(#{$device-height} - #{$space-double});
@@ -16,10 +16,6 @@
   > * {
     display: flex;
     flex-direction: column;
-
-    // @include media(">medium") {
-    //   min-height: calc((#{$device-height} - #{$space-double}) / 2);
-    // }
   }
 
   &__hero {
@@ -38,6 +34,7 @@
     justify-content: space-between;
     align-items: center;
     flex-basis: 50vh;
+    padding: $space;
 
     @include media(">medium") {
       flex-basis: calc((#{$device-height} - #{$space-double}) / 2);
@@ -49,31 +46,10 @@
     }
   }
 
-  &__options {
-    .o-button--tertiary:last-child {
-      border-bottom: 1px solid $c-pink;
-    }
-
-    .o-button--tertiary:last-child.is-active {
-      border-bottom: 1px solid $c-red;
-    }
-  }
-
-  &__description {
-    padding: $space;
-    padding-bottom: 0;
-    text-align: left;
-
-    h4 {
-      @include o-heading--s;
-      @include u-underline;
-
-      display: table;
-      line-height: 1.6;
-
-      span {
-        color: $c-black;
-      }
+  &__gif {
+    img {
+      width: 100%;
+      height: auto;
     }
   }
 }
@@ -82,24 +58,18 @@
  * Panel - Home
  */
 .c-panel--home {
+  background-color: $c-pink;
+
   .c-panel__hero {
     justify-content: flex-end;
   }
 
   .c-panel__content {
-    padding: 0 $space $space $space;
+    padding: $space-double $space $space $space;
   }
 
   .u-underline span {
     color: $c-black;
-  }
-
-  .o-branding {
-    color: $c-black;
-
-    svg path {
-      fill: $c-black;
-    }
   }
 }
 
@@ -107,21 +77,34 @@
  * Panel - Resolutions
  */
 .c-panel--resolutions {
-  background-color: $c-maroon;
+  background-color: $c-maroon--light;
+
+  .c-panel__hero {
+    padding: 0;
+    display: flex;
+
+    &-heading {
+      padding: $space;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .o-habit {
+    font-family: $font-secondary;
+  }
 
   &.is-revised {
-    background-color: $c-pink;
+    background-color: $c-maroon;
 
     .o-habit {
       @include u-underline;
 
-      span::before,
-      span::after {
-        top: 9px;
-        background-size: auto 10px;
-        width: 0;
-        overflow: hidden;
-        animation: width 1s forwards;
+      span::before {
+        top: 4px;
+        background-size: 100% 10px;
+        animation: scaleInHorLeft 0.5s $transition-effect both;
       }
     }
   }
@@ -134,13 +117,10 @@
         margin-right: 9px;
       }
 
-      span::before,
-      span::after {
-        top: 7px;
-        background-size: auto 10px;
-        width: 0;
-        overflow: hidden;
-        animation: width 0.5s forwards;
+      span::before {
+        top: 8px;
+        background-size: 100% 10px;
+        animation: scaleInHorLeft 0.5s $transition-effect both;
       }
     }
   }
@@ -155,10 +135,53 @@
   }
 }
 
+@for $i from 1 to 5 {
+  .c-panel__options button:nth-of-type(#{$i}) {
+    animation-delay: $i * 0.25s;
+  }
+}
+
+/**
+ * Panel - Complete
+ */
+.c-panel--complete {
+  background-color: $c-pink;
+
+  .c-panel__hero {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: $space-double;
+
+    h3 {
+      color: $c-red;
+      font-family: $font-secondary;
+    }
+  }
+
+  .c-panel__content {
+    padding-top: $space-double;
+  }
+
+  .c-panel__content-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+}
+
 /**
  * Panel - Results
  */
 .c-panel--results {
+  position: relative;
+  overflow: hidden;
+
+  .c-panel__hero {
+    padding-top: $space-double;
+    justify-content: center;
+  }
+
   .c-panel__content {
     flex-basis: auto;
   }
@@ -178,11 +201,8 @@
  * Results Card
  */
 .c-results-card {
-  box-shadow: 0 0 15px rgba($c-black, 0.6);
   background-color: $c-maroon;
   color: $c-pink;
-  padding: $space;
-  margin: $space $space -80px $space;
 
   &__logo {
     width: 50%;
@@ -195,6 +215,43 @@
 
   &__website {
     font-size: $font-size-xs;
+  }
+}
+
+#card-square {
+  position: absolute;
+  z-index: -1;
+  width: 600px;
+  height: 600px;
+  top: 0;
+  left: 0;
+  padding: 0;
+  margin: 0;
+
+  .c-results-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 30px;
+    margin: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: none;
+
+    &__logo {
+      width: 200px;
+      max-width: 200px;
+      height: 89px;
+      display: block;
+    }
+
+    &__body {
+      font-size: 30px;
+    }
+
+    &__website {
+      font-size: 16px;
+    }
   }
 }
 
@@ -216,22 +273,63 @@
   align-items: center;
   justify-content: center;
   color: $c-red;
-  margin-top: 30px;
   font-size: $font-size-xs;
 
   svg {
-    width: 40px;
+    width: 45px;
     height: auto;
     padding-left: 3px;
   }
 }
 
+button + .o-branding {
+  margin-top: 30px;
+}
+
 /**
- * Counter
+ * Progress
  */
-.o-counter {
-  letter-spacing: 2px;
-  margin-bottom: $space;
+.o-progress {
+  position: relative;
+  display: block;
+  width: 100%;
+
+  span {
+    color: $c-pink;
+    line-height: 18px;
+    font-size: $font-size-xs;
+    letter-spacing: 2px;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: $space;
+  }
+
+  progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    appearance: none;
+    border: none;
+    background-color: $c-pink;
+
+    &::-moz-progress-bar {
+      background-color: $c-pink;
+    }
+
+    &::-webkit-progress-bar {
+      background-color: $c-pink;
+      width: 100%;
+      transition: $transition-all;
+    }
+
+    &::-webkit-progress-value {
+      background: $c-red;
+      transition: width 1s ease-in;
+    }
+  }
 }
 
 /**
@@ -241,4 +339,18 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background-color: $c-pink;
+  padding: $space-half $space;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+
+  a {
+    color: $c-maroon;
+    text-decoration: none;
+    text-align: left;
+    padding: $space-half 0;
+  }
 }
