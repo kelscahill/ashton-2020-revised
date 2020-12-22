@@ -15,7 +15,7 @@
               <div class="o-heading--m">202<span class="u-xout">0</span> should be left on the cutting room floor. Still, there are a few bright bits worth saving. Some quick <div class="u-underline"><span>revisions</span></div> could make a world of difference for the year ahead.</div>
             </div>
             <footer class="c-panel__content-footer">
-              <button v-on:click="isHidden = false" class="o-button--primary animate__animated animate__fade-in-up animate__delay-1s">Start revising!</button>
+              <button v-on:click="isHidden = false" class="o-button--primary animate__animated animate__fade-in-up animate__delay-1s">Let's go!</button>
               <Branding />
             </footer>
           </div>
@@ -32,16 +32,19 @@
               <progress :value="(resolutionIndex + 1) * 20" max="100"></progress>
             </div>
             <div class="c-panel__hero-heading">
-              <h2 class="o-heading--xl">
+              <h2 class="o-heading--xl" v-if="!isRevised">
+                <span class="o-statement animate__animated animate__fadeIn" v-html="quiz.resolutions[resolutionIndex].statement"></span>{{' '}}
+                <span class="o-habit u-strike" v-html="quiz.resolutions[resolutionIndex].habit"></span>
+              </h2>
+              <h2 class="o-heading--xl" v-if="isRevised">
                 <span class="o-statement" v-html="quiz.resolutions[resolutionIndex].statement"></span>{{' '}}
-                <span class="o-habit animate__animated" v-if="!isRevised" v-html="quiz.resolutions[resolutionIndex].habit"></span>
-                <span class="o-habit animate__animated is-revised" v-if="isRevised" v-html="results.button[resolutionIndex]"></span>.
+                <span class="o-habit u-underline" v-html="results.button[resolutionIndex]"></span>
               </h2>
             </div>
           </header>
           <div class="c-panel__content">
             <div class="c-panel__content-body">
-              <div class="c-panel__options u-spacing--half" v-if="!isRevised">
+              <div class="c-panel__options u-spacing--half u-animation__delay" v-if="!isRevised">
                 <button
                   class="o-button--secondary animate__animated animate__fade-in-up"
                   v-bind:key="revision.id"
@@ -55,12 +58,12 @@
                 ></button>
               </div>
               <div class="c-panel__gif u-spacing animate__animated animate__fadeIn" v-if="isRevised">
-                <img :src="results.gif[resolutionIndex]" alt="Gif" />
+                <img :src="require('./assets/gifs/' + resolutionIndex + '/' + selectedIndex + '.gif')" alt="Gif" />
               </div>
             </div>
             <footer class="c-panel__content-footer">
               <button
-                class="o-button--secondary animate__animated animate__fade-in-up"
+                class="o-button--secondary animate__animated animate__fade-in-up animate__delay-1s"
                 v-if="isRevised"
                 v-on:click="next"
               >{{ quiz.resolutions[resolutionIndex].button_text }}</button>
@@ -74,15 +77,17 @@
           class="c-panel c-panel--complete"
         >
           <header class="c-panel__hero">
-            <h2 class="o-heading--xl">You did it!</h2>
-            <img src="./assets/swivel.svg" alt="Swivel" />
+            <h2 class="o-heading--xl">Your future<br/>looks bright.</h2>
+            <Scribble />
           </header>
           <div class="c-panel__content">
             <div class="c-panel__content-body">
-              <h3 class="o-heading--m">All of us at Ashton Design hope your new year revisions bring you a happy and healthier 2021.</h3>
+              <h3 class="o-heading--m">
+                Way to take things from bad to good!<br/><br/>We're making your revisions now. While we compute, Team Ashton would like to wish you a happier, healthier year ahead.
+              </h3>
             </div>
             <footer class="c-panel__content-footer">
-              <button class="o-button--tertiary" v-on:click="resultIsHidden = !resultIsHidden">Final approval</button>
+              <button class="o-button--tertiary" v-on:click="resultIsHidden = !resultIsHidden">See your masterpiece</button>
               <Branding />
             </footer>
           </div>
@@ -91,6 +96,7 @@
         <article
           v-if="resolutionIndex >= quiz.resolutions.length && !resultIsHidden"
           class="c-panel c-panel--results"
+          v-on:click="shareIsHidden = !shareIsHidden"
         >
           <header class="c-panel__hero">
             <div id="card-square">
@@ -100,14 +106,21 @@
           </header>
           <div class="c-panel__content">
             <footer class="c-panel__content-footer">
-              <div class="c-social-share" v-if="!shareIsHidden">
-                <a href="">Facebook</a>
-                <a href="">Twitter</a>
-                <a href="">Email</a>
-                <a href="">SMS</a>
-                <a id="download-square" download="2020-revised.jpg">Download Image</a>
+              <div :class="'c-social-share animate__animated ' + [shareIsHidden ? 'animate__slideOutDown' : 'animate__slideInUp']">
+                <a href="">
+                  <span class="o-icon"><img src="./assets/icon-facebook.png" alt="Facebook" /></span>Facebook
+                </a>
+                <a href="">
+                  <span class="o-icon"><img src="./assets/icon-twitter.png" alt="Twitter" /></span>Twitter
+                </a>
+                <a href="">
+                  <span class="o-icon"><img src="./assets/icon-sms.png" alt="Message" /></span>Message
+                </a>
+                <a id="download-square" download="2020-revised.jpg">
+                  <span class="o-icon"><img src="./assets/icon-instagram.png" alt="Instagram" /></span>Instagram<span class="o-small">(Download)</span>
+                </a>
               </div>
-              <button class="o-button" v-on:click="screenshot(); shareIsHidden = !shareIsHidden">Share Your Revisions!</button>
+              <button class="o-button" v-on:click="screenshot()">Share Your 2021 Goals</button>
               <Branding />
             </footer>
           </div>
@@ -122,162 +135,142 @@
 var quiz = {
   resolutions: [
     {
-      id: 1,
+      id: 0,
       statement: "This year I will spend more time",
-      habit: "<span>quarantining</span>",
-      button_text: "Next",
+      habit: "<span>in quarantine</span>",
+      button_text: "Noice. Next!",
       revisions: [
         {
+          id: 0,
+          button: "<span>connecting</span><span>with family</span>",
+          value: "<span>family-focused</span>"
+        },
+        {
           id: 1,
-          button: "<span>reconnecting</span><span>with family</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>reconnecting</span><span>with family</span>"
+          button: "<span>exercising</span>",
+          value: "<span>future-fit</span>"
         },
         {
           id: 2,
-          button: "<span>exercising</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>exercising</span>"
+          button: "<span>outside</span>",
+          value: "<span>“one with nature”</span>"
         },
         {
           id: 3,
-          button: "<span>outside</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>outside</span>"
+          button: "<span>drinking</span><span>better wine</span>",
+          value: "<span>fine-wine-drinking</span>"
+        }
+      ]
+    },
+    {
+      id: 1,
+      statement: "Every night before bed I will",
+      habit: "<span>binge Netflix</span>",
+      button_text: "We feel that. Onward!",
+      revisions: [
+        {
+          id: 1,
+          button: "<span>read a book</span>",
+          value: "<span>become a bookworm</span>"
+        },
+        {
+          id: 2,
+          button: "<span>drink a cup</span><span>of tea</span>",
+          value: "<span>sip tea</span>"
+        },
+        {
+          id: 3,
+          button: "<span>turn off</span><span>my phone</span>",
+          value: "<span>unplug</span>"
         },
         {
           id: 4,
-          button: "<span>drinking</span><span>better wine</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>drinking</span><span>better wine</span>"
+          button: "<span>practice my</span><span>dance moves</span>",
+          value: "<span>become Tik Tok</span><span>famous</span>"
         }
       ]
     },
     {
       id: 2,
-      statement: "Every night before bed I will",
-      habit: "<span>binge</span><span>Netflix</span>",
-      button_text: "Next",
+      statement: "I like to think of myself as",
+      habit: "<span>contagious</span>",
+      button_text: "Us too. Next!",
       revisions: [
         {
           id: 1,
-          button: "<span>read a</span><span>book</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>read a</span><span>book</span>"
+          button: "<span>relaxed</span>",
+          value: "<span>laid-back</span>"
         },
         {
           id: 2,
-          button: "<span>drink a cup</span><span>of tea</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>drink a cup</span><span>of tea</span>"
+          button: "<span>lively</span>",
+          value: "<span>fun-loving</span>"
         },
         {
           id: 3,
-          button: "<span>turn off</span><span>my phone</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>turn off</span><span>my phone</span>"
+          button: "<span>intelligent</span>",
+          value: "<span>whip-smart</span>"
         },
         {
           id: 4,
-          button: "<span>practice my</span><span>dance moves</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>practice my</span><span>dance moves</span>"
+          button: "<span>healthy</span>",
+          value: "<span>Covid-free</span>"
         }
       ]
     },
     {
       id: 3,
-      statement: "I like to think of myself as",
-      habit: "<span>contagious</span>",
-      button_text: "Next",
+      statement: "One habit I’ll stick to is",
+      habit: "<span>wearing</span><span>sweats 24/7</span>",
+      button_text: "Just one left!",
       revisions: [
         {
           id: 1,
-          button: "<span>relaxed</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>relaxed</span>"
+          button: "<span>making</span><span>my bed</span>",
+          value: "<span>making</span><span>my bed</span>"
         },
         {
           id: 2,
-          button: "<span>lively</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>lively</span>"
-        },
-        {
-          id: 3,
-          button: "<span>intelligent</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>intelligent</span>"
-        },
-        {
-          id: 4,
-          button: "<span>healthy</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>healthy</span>"
-        }
-      ]
-    },
-    {
-      id: 4,
-      statement: "One habit I’ll keep is",
-      habit: "<span>ordering</span><span>takeout</span>",
-      button_text: "Next",
-      revisions: [
-        {
-          id: 1,
-          button: "<span>making my bed</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>making my bed</span>"
-        },
-        {
-          id: 2,
-          button: "<span>meditating</span><span>more</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>meditating</span><span>more</span>"
+          button: "<span>shopping</span><span>locally</span>",
+          value: "<span>shopping</span><span>locally</span>"
         },
         {
           id: 3,
           button: "<span>showering</span><span>regularly</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
           value: "<span>showering</span><span>regularly</span>"
         },
         {
           id: 4,
           button: "<span>reading my</span><span>horoscope</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
           value: "<span>reading my</span><span>horoscope</span>"
         }
       ]
     },
     {
-      id: 5,
+      id: 4,
       statement: "And I’ll try to never run short on",
       habit: "<span>toilet paper</span>",
-      button_text: "Next",
+      button_text: "Wrap it up!",
       revisions: [
         {
           id: 1,
           button: "<span>self-love</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
           value: "<span>self-love</span>"
         },
         {
           id: 2,
           button: "<span>funny memes</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
           value: "<span>funny memes</span>"
         },
         {
           id: 3,
           button: "<span>empathy</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
           value: "<span>empathy</span>"
         },
         {
           id: 4,
-          button: "<span>phone calls</span><span>to friends</span>",
-          gif: "https://media.giphy.com/media/slOhiKAVFgwr6/source.gif",
-          value: "<span>phone calls</span><span>to friends</span>"
+          button: "<span>USPS stamps</span>",
+          value: "<span>USPS stamps</span>"
         }
       ]
     }
@@ -286,6 +279,7 @@ var quiz = {
 
 import Logo from './components/Logo.vue'
 import Branding from './components/Branding.vue'
+import Scribble from './components/Scribble.vue'
 import ResultsCard from './components/ResultsCard.vue'
 import html2canvas from 'html2canvas'
 
@@ -294,6 +288,7 @@ export default {
   components: {
     Logo,
     Branding,
+    Scribble,
     ResultsCard,
   },
   data() {
@@ -320,6 +315,7 @@ export default {
     },
     revise(index, resolutionIndex) {
       var id = resolutionIndex + '-' + index;
+      this.selectedIndex = index;
       this.isRevised = true;
       this.results.button[resolutionIndex] = document.getElementById("o-revision--" + id).dataset.button;
       this.results.value[resolutionIndex] = document.getElementById("o-revision--" + id).dataset.value;

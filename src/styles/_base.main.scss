@@ -5,15 +5,21 @@ body {
   font-size: $body-font-size;
 }
 
+a {
+  cursor: pointer;
+}
+
 .l-wrap {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  @include media(">medium") {
+  @include media(">small") {
     padding: $space;
     min-height: 100vh;
+    background: url('../assets/background.png') center center no-repeat;
+    background-size: 1360px auto;
   }
 
   &::before {
@@ -24,7 +30,7 @@ body {
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 0;
+    z-index: -1;
     background-color: $c-pink;
   }
 }
@@ -33,7 +39,7 @@ body {
   text-align: center;
   position: relative;
 
-  @include media(">medium") {
+  @include media(">small") {
     &::before {
       content: "";
       display: block;

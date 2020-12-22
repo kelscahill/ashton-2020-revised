@@ -8,7 +8,7 @@
   min-height: 100vh;
   background-color: $c-maroon;
 
-  @include media(">medium") {
+  @include media(">small") {
     min-height: calc(#{$device-height} - #{$space-double});
   }
 
@@ -36,13 +36,19 @@
     flex-basis: 50vh;
     padding: $space;
 
-    @include media(">medium") {
+    @include media(">small") {
       flex-basis: calc((#{$device-height} - #{$space-double}) / 2);
+    }
+
+
+    &-body {
+      width: 100%;
+      padding-bottom: $space;
     }
 
     &-footer {
       width: 100%;
-      padding: $space-double $space $space $space;
+      padding: 0 $space;
     }
   }
 
@@ -50,6 +56,13 @@
     img {
       width: 100%;
       height: auto;
+      max-width: $xsmall;
+
+      @include media('<=xsmall') {
+        max-width: 290px;
+        max-height: 200px;
+        width: auto;
+      }
     }
   }
 }
@@ -58,13 +71,12 @@
  * Panel - Home
  */
 .c-panel--home {
-  background-color: $c-pink;
-
   .c-panel__hero {
     justify-content: flex-end;
   }
 
   .c-panel__content {
+    background-color: $c-pink;
     padding: $space-double $space $space $space;
   }
 
@@ -84,7 +96,7 @@
     display: flex;
 
     &-heading {
-      padding: $space;
+      padding: $space $space 0 $space;
       flex: 1;
       display: flex;
       align-items: center;
@@ -93,36 +105,32 @@
 
   .o-habit {
     font-family: $font-secondary;
+
+    span {
+      @include animate__fade-in-up;
+    }
+
+    span::before {
+      top: 4px;
+      background-size: 100% 8px;
+      animation: scaleInHorLeft 0.5s $transition-effect both;
+
+      @include media('>small') {
+        top: 6px;
+        background-size: 100% 10px;
+      }
+    }
+
+    span:last-child::after {
+      content: ".";
+      font-family: georgia, serif;
+      width: 0;
+      overflow: visible;
+    }
   }
 
   &.is-revised {
     background-color: $c-maroon;
-
-    .o-habit {
-      @include u-underline;
-
-      span::before {
-        top: 4px;
-        background-size: 100% 10px;
-        animation: scaleInHorLeft 0.5s $transition-effect both;
-      }
-    }
-  }
-
-  &:not(.is-revised) {
-    .o-habit {
-      @include u-strike;
-
-      span {
-        margin-right: 9px;
-      }
-
-      span::before {
-        top: 8px;
-        background-size: 100% 10px;
-        animation: scaleInHorLeft 0.5s $transition-effect both;
-      }
-    }
   }
 }
 
@@ -130,14 +138,8 @@
   .c-panel--resolutions .o-habit span:nth-child(#{$i}) {
     &::after,
     &::before {
-      animation-delay: $i * 0.25s;
+      animation-delay: $i * 0.25s + 0.5s;
     }
-  }
-}
-
-@for $i from 1 to 5 {
-  .c-panel__options button:nth-of-type(#{$i}) {
-    animation-delay: $i * 0.25s;
   }
 }
 
@@ -153,9 +155,15 @@
     justify-content: flex-end;
     padding-bottom: $space-double;
 
-    h3 {
-      color: $c-red;
+    h2 {
       font-family: $font-secondary;
+      color: $c-red;
+      text-align: center;
+    }
+
+    img {
+      max-width: 80px;
+      margin-top: $space;
     }
   }
 
@@ -177,23 +185,18 @@
   position: relative;
   overflow: hidden;
 
+  @include media(">small") {
+    padding-top: $space;
+  }
+
+
   .c-panel__hero {
-    padding-top: $space-double;
+    padding: 0;
     justify-content: center;
   }
 
   .c-panel__content {
     flex-basis: auto;
-  }
-
-  .c-panel__content-body {
-    padding: 80px $space 0 $space;
-  }
-
-  @include media('>medium') {
-    .c-panel__hero {
-      flex: none;
-    }
   }
 }
 
@@ -203,6 +206,7 @@
 .c-results-card {
   background-color: $c-maroon;
   color: $c-pink;
+  padding: $space;
 
   &__logo {
     width: 50%;
@@ -210,11 +214,12 @@
   }
 
   &__body {
-    padding: $space-double 0;
+    padding-top: $space-double;
   }
 
   &__website {
-    font-size: $font-size-xs;
+    font-size: $font-size-s;
+    display: none;
   }
 }
 
@@ -246,11 +251,13 @@
     }
 
     &__body {
-      font-size: 30px;
+      font-size: 35px;
+      padding: $space-double 0;
     }
 
     &__website {
       font-size: 16px;
+      display: block;
     }
   }
 }
@@ -260,8 +267,17 @@
  */
 .o-logo {
   width: 100%;
-  max-width: 335px;
+  max-width: $xsmall;
   margin: 0 auto;
+}
+
+/**
+ * Scribble
+ */
+.o-scribble {
+  width: 100%;
+  max-width: 80px;
+  margin: $space auto 0 auto;
 }
 
 /**
@@ -273,7 +289,7 @@
   align-items: center;
   justify-content: center;
   color: $c-red;
-  font-size: $font-size-xs;
+  font-size: $font-size-s;
 
   svg {
     width: 45px;
@@ -283,7 +299,11 @@
 }
 
 button + .o-branding {
-  margin-top: 30px;
+  margin-top: $space;
+
+  @include media(">xsmall") {
+    margin-top: 30px;
+  }
 }
 
 /**
@@ -297,7 +317,7 @@ button + .o-branding {
   span {
     color: $c-pink;
     line-height: 18px;
-    font-size: $font-size-xs;
+    font-size: $font-size-s;
     letter-spacing: 2px;
     z-index: 1;
     position: absolute;
@@ -343,14 +363,69 @@ button + .o-branding {
   left: 0;
   bottom: 0;
   background-color: $c-pink;
-  padding: $space-half $space;
+  padding: $space-half 0;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  overflow: hidden;
+
+  @include media(">small") {
+    position: absolute;
+  }
+
 
   a {
     color: $c-maroon;
     text-decoration: none;
     text-align: left;
-    padding: $space-half 0;
+    padding: $space-half $space;
+    font-size: $font-size-m;
+    display: flex;
+    align-items: center;
+    position: relative;
+    transition: $transition-all;
+    line-height: 1;
+
+    &::after {
+      content: "→";
+      font-family: $font-primary;
+      font-size: $font-size-m;
+      line-height: 1;
+      text-align: right;
+      position: absolute;
+      right: $space;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      transition: $transition-all;
+    }
+
+    &:hover {
+      background-color: rgba($c-white, 0.2);
+
+      &::after {
+        right: calc(#{$space} - 3px);
+      }
+    }
+  }
+
+  .o-icon {
+    width: 30px;
+    height: 30px;
+    max-width: 30px;
+    border-radius: 30px;
+    overflow: hidden;
+    display: inline-flex;
+    margin-right: $space;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .o-small {
+    font-size: $font-size-s;
   }
 }

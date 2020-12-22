@@ -1,5 +1,5 @@
-@mixin o-button($bg-color: $c-red, $color: $c-pink, $bg-color-hover: $c-red, $color-hover: $c-pink) {
-  @include o-heading--s;
+@mixin o-button($bg-color: $c-red, $color: $c-pink, $bg-color-hover: darken($c-red, 5%), $color-hover: $c-pink) {
+  @include o-heading--m;
 
   border: 0;
   cursor: pointer;
@@ -28,13 +28,18 @@
 }
 
 @mixin o-button--primary {
-  @include o-button($c-red, $c-pink, $c-red, $c-pink);
+  @include o-button($c-red, $c-pink, darken($c-red, 5%), $c-pink);
 }
 
 @mixin o-button--secondary {
   @include o-button(transparent, $c-pink, $c-red, $c-pink);
 
   border: 1px solid $c-pink;
+
+  &:focus,
+  &:hover {
+    border-color: $c-red;
+  }
 }
 
 @mixin o-button--tertiary {

@@ -73,6 +73,18 @@ span + span {
       background-position: right center;
     }
   }
+
+  span:nth-child(even) {
+    &::before {
+      background-image: url("../assets/stroke-2.png");
+    }
+  }
+
+  span:nth-child(odd) {
+    &::before {
+      background-image: url("../assets/stroke-1.png");
+    }
+  }
 }
 
 .u-strike {
