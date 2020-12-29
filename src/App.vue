@@ -37,7 +37,7 @@
                 <span class="o-habit u-strike" v-html="quiz.resolutions[resolutionIndex].habit"></span>
               </h2>
               <h2 class="o-heading--xl" v-if="isRevised">
-                <span class="o-statement" v-html="quiz.resolutions[resolutionIndex].statement"></span>{{' '}}
+                <span class="o-statement animate__animated animate__fadeIn" v-html="quiz.resolutions[resolutionIndex].statement"></span>{{' '}}
                 <span class="o-habit u-underline" v-html="results.button[resolutionIndex]"></span>
               </h2>
             </div>
@@ -46,7 +46,7 @@
             <div class="c-panel__content-body">
               <div class="c-panel__options u-spacing--half u-animation__delay" v-if="!isRevised">
                 <button
-                  class="o-button--secondary animate__animated animate__fade-in-up"
+                  class="o-button--secondary animate__animated animate__fadeInUp"
                   v-bind:key="revision.id"
                   v-for="(revision, index) in quiz.resolutions[resolutionIndex].revisions"
                   v-on:click="revise(index, resolutionIndex)"
@@ -63,7 +63,7 @@
             </div>
             <footer class="c-panel__content-footer">
               <button
-                class="o-button--secondary animate__animated animate__fade-in-up animate__delay-1s"
+                class="o-button--secondary animate__animated animate__fadeInUp animate__delay-1s"
                 v-if="isRevised"
                 v-on:click="next"
               >{{ quiz.resolutions[resolutionIndex].button_text }}</button>
@@ -77,17 +77,17 @@
           class="c-panel c-panel--complete"
         >
           <header class="c-panel__hero">
-            <h2 class="o-heading--xl">Your future<br/>looks bright.</h2>
+            <h2 class="o-heading--xl animate__animated animate__fade-in-up">Your future<br/>looks bright.</h2>
             <Scribble />
           </header>
           <div class="c-panel__content">
-            <div class="c-panel__content-body">
+            <div class="c-panel__content-body animate__animated animate__fadeIn">
               <h3 class="o-heading--m">
-                Way to take things from bad to good!<br/><br/>We're making your revisions now. While we compute, Team Ashton would like to wish you a happier, healthier year ahead.
+                Way to take things from bad to good! We're making your revisions now.<br/><br/>While we compute, Team Ashton would like to wish you a happier, healthier year ahead.
               </h3>
             </div>
             <footer class="c-panel__content-footer">
-              <button class="o-button--tertiary" v-on:click="resultIsHidden = !resultIsHidden">See your masterpiece</button>
+              <button class="o-button--tertiary animate__animated animate__fade-in-up" v-on:click="resultIsHidden = !resultIsHidden">See your masterpiece</button>
               <Branding />
             </footer>
           </div>
@@ -96,31 +96,30 @@
         <article
           v-if="resolutionIndex >= quiz.resolutions.length && !resultIsHidden"
           class="c-panel c-panel--results"
-          v-on:click="shareIsHidden = !shareIsHidden"
         >
-          <header class="c-panel__hero">
+          <header class="c-panel__hero" v-on:click="removeClass()">
             <div id="card-square">
               <ResultsCard :results="results" />
             </div>
-            <ResultsCard :results="results" />
+            <ResultsCard :results="results" class="animate__animated animate__fadeIn" />
           </header>
           <div class="c-panel__content">
             <footer class="c-panel__content-footer">
-              <div :class="'c-social-share animate__animated ' + [shareIsHidden ? 'animate__slideOutDown' : 'animate__slideInUp']">
-                <a href="">
+              <div id="social-share" class="c-social-share">
+                <a target="_blank" :href="'https://facebook.com/sharer/sharer.php?u=' + pageUrl">
                   <span class="o-icon"><img src="./assets/icon-facebook.png" alt="Facebook" /></span>Facebook
                 </a>
-                <a href="">
+                <a target="_blank" :href="'https://twitter.com/intent/tweet/?text=' + pageTitle + ' @ashtondesignllc&amp;url=' + pageUrl">
                   <span class="o-icon"><img src="./assets/icon-twitter.png" alt="Twitter" /></span>Twitter
                 </a>
-                <a href="">
+                <a target="_blank" :href="'https://www.addtoany.com/add_to/sms?linkurl=' + pageUrl + '&linkname=' + pageTitle">
                   <span class="o-icon"><img src="./assets/icon-sms.png" alt="Message" /></span>Message
                 </a>
-                <a id="download-square" download="2020-revised.jpg">
+                <a v-on:click="screenshot()">
                   <span class="o-icon"><img src="./assets/icon-instagram.png" alt="Instagram" /></span>Instagram<span class="o-small">(Download)</span>
                 </a>
               </div>
-              <button class="o-button" v-on:click="screenshot()">Share Your 2021 Goals</button>
+              <button class="o-button animate__animated animate__fade-in-up" v-on:click="addClass()">Share Your 2021 Goals</button>
               <Branding />
             </footer>
           </div>
@@ -171,7 +170,7 @@ var quiz = {
         {
           id: 1,
           button: "<span>read a book</span>",
-          value: "<span>become a bookworm</span>"
+          value: "<span>become a</span><span>bookworm</span>"
         },
         {
           id: 2,
@@ -282,6 +281,7 @@ import Branding from './components/Branding.vue'
 import Scribble from './components/Scribble.vue'
 import ResultsCard from './components/ResultsCard.vue'
 import html2canvas from 'html2canvas'
+import { saveAs } from 'file-saver'
 
 export default {
   name: "App",
@@ -295,10 +295,11 @@ export default {
     return {
       quiz: quiz,
       resolutionIndex: 0,
-      shareIsHidden: true,
       resultIsHidden: true,
       isHidden: true,
       isRevised: false,
+      pageUrl: 'https://cahillscreative.com/2020-revised/',
+      pageTitle: "Revise your 2020!",
       results: {
         button: [],
         value: [],
@@ -308,30 +309,41 @@ export default {
   },
   methods: {
     next() {
-      if (this.resolutionIndex < this.quiz.resolutions.length) {
-        this.resolutionIndex++;
-      }
-      this.isRevised = false;
+      setTimeout(() => {
+        if (this.resolutionIndex < this.quiz.resolutions.length) {
+          this.resolutionIndex++;
+        }
+        this.isRevised = false;
+      }, 300)
+    },
+    removeClass() {
+      document.getElementById("social-share").classList.remove('is-active');
+      document.getElementById("social-share").classList.add('is-inactive');
+    },
+    addClass() {
+      document.getElementById("social-share").classList.add('is-active');
     },
     revise(index, resolutionIndex) {
-      var id = resolutionIndex + '-' + index;
-      this.selectedIndex = index;
-      this.isRevised = true;
-      this.results.button[resolutionIndex] = document.getElementById("o-revision--" + id).dataset.button;
-      this.results.value[resolutionIndex] = document.getElementById("o-revision--" + id).dataset.value;
-      this.results.gif[resolutionIndex] = document.getElementById("o-revision--" + id).dataset.gif;
+      setTimeout(() => {
+        var id = resolutionIndex + '-' + index;
+        this.selectedIndex = index;
+        this.isRevised = true;
+        this.results.button[resolutionIndex] = document.getElementById("o-revision--" + id).dataset.button;
+        this.results.value[resolutionIndex] = document.getElementById("o-revision--" + id).dataset.value;
+        this.results.gif[resolutionIndex] = document.getElementById("o-revision--" + id).dataset.gif;
+      }, 300)
     },
     screenshot() {
       var cardSquare = document.getElementById("card-square");
       html2canvas(cardSquare, {
         width: 600,
-        height: 600
+        height: 600,
+        scrollX: 0,
+        scrollY: -window.scrollY
       }).then(function(canvas) {
-        var image = canvas.toDataURL("image/jpg");
-        var downloadSquareButton = document.getElementById("download-square");
-        if (image && downloadSquareButton.href === "") {
-          downloadSquareButton.href = image;
-        }
+        canvas.toBlob(function(blob) {
+          saveAs(blob, "2020-revised.png");
+        });
       });
     },
   }

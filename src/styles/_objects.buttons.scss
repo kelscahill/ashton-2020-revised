@@ -21,7 +21,8 @@
   text-transform: capitalize;
 
   &:focus,
-  &:hover {
+  &:hover,
+  &.is-active {
     color: $color-hover;
     background-color: $bg-color-hover;
   }
@@ -37,7 +38,8 @@
   border: 1px solid $c-pink;
 
   &:focus,
-  &:hover {
+  &:hover,
+  &.is-active {
     border-color: $c-red;
   }
 }

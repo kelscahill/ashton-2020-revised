@@ -5,13 +5,15 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 100vh;
   background-color: $c-maroon;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
 
-  @include media(">small") {
-    min-height: calc(#{$device-height} - #{$space-double});
+  @include media(">small", "height>small") {
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
   }
-
 
   > * {
     display: flex;
@@ -26,6 +28,14 @@
     text-align: left;
     padding: $space $space $space-double $space;
     flex: 1;
+
+    &-heading h2 {
+      padding: $space-half 0;
+
+      @include media("height<=small") {
+        padding: $space 0;
+      }
+    }
   }
 
   &__content {
@@ -36,10 +46,9 @@
     flex-basis: 50vh;
     padding: $space;
 
-    @include media(">small") {
+    @include media("height>device-height") {
       flex-basis: calc((#{$device-height} - #{$space-double}) / 2);
     }
-
 
     &-body {
       width: 100%;
@@ -100,6 +109,10 @@
       flex: 1;
       display: flex;
       align-items: center;
+
+      @include media(">small", "height>small") {
+        padding: $space-double $space $space $space;
+      }
     }
   }
 
@@ -108,24 +121,37 @@
 
     span {
       @include animate__fade-in-up;
+
+      margin-right: 8px;
     }
 
     span::before {
       top: 4px;
       background-size: 100% 8px;
+      -webkit-animation: scaleInHorLeft 0.5s $transition-effect both;
       animation: scaleInHorLeft 0.5s $transition-effect both;
 
-      @include media('>small') {
+      @include media(">small", "height>small") {
         top: 6px;
         background-size: 100% 10px;
       }
+    }
+
+    span:last-child {
+      margin-right: 0;
     }
 
     span:last-child::after {
       content: ".";
       font-family: georgia, serif;
       width: 0;
+      position: relative;
+      left: 0;
       overflow: visible;
+    }
+
+    &::before {
+      display: none;
     }
   }
 
@@ -215,6 +241,11 @@
 
   &__body {
     padding-top: $space-double;
+
+    div {
+      @include u-underline;
+      line-height: 1.2;
+    }
   }
 
   &__website {
@@ -228,7 +259,7 @@
   z-index: -1;
   width: 600px;
   height: 600px;
-  top: 0;
+  bottom: 0;
   left: 0;
   padding: 0;
   margin: 0;
@@ -241,6 +272,7 @@
     margin: 0;
     flex-direction: column;
     justify-content: space-between;
+    align-items: stretch;
     box-shadow: none;
 
     &__logo {
@@ -258,6 +290,17 @@
     &__website {
       font-size: 16px;
       display: block;
+    }
+
+    .u-underline {
+      @include media('<=small') {
+        display: contents;
+        line-height: 0.7;
+
+        &::before {
+          display: none;
+        }
+      }
     }
   }
 }
@@ -278,6 +321,8 @@
   width: 100%;
   max-width: 80px;
   margin: $space auto 0 auto;
+  -webkit-animation: draw 3s ease-in forwards;
+  animation: draw 3s ease-in forwards;
 }
 
 /**
@@ -323,6 +368,10 @@ button + .o-branding {
     position: absolute;
     top: 0;
     left: $space;
+
+    @include media(">small", "height>small") {
+      left: 30px;
+    }
   }
 
   progress {
@@ -367,6 +416,19 @@ button + .o-branding {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   overflow: hidden;
+  transform: translateY(1000px);
+  opacity: 0;
+
+  &.is-inactive {
+    -webkit-animation: slideOutDown 0.5s $transition-effect backwards;
+    animation: slideOutDown 0.5s $transition-effect backwards;
+  }
+
+  &.is-active {
+    -webkit-animation: slideInUp 0.5s $transition-effect forwards;
+    animation: slideInUp 0.5s $transition-effect forwards;
+    z-index: 999;
+  }
 
   @include media(">small") {
     position: absolute;
@@ -427,5 +489,7 @@ button + .o-branding {
 
   .o-small {
     font-size: $font-size-s;
+    position: relative;
+    top: 2px;
   }
 }

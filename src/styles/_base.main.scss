@@ -1,8 +1,16 @@
+html {
+  height: -webkit-fill-available;
+}
+
 body {
-  background-color: $c-pink;
+  background-color: $c-maroon;
   color: $c-black;
   font-family: $font-primary;
   font-size: $body-font-size;
+
+  @include media(">small", "height>small") {
+    background-color: $c-pink;
+  }
 }
 
 a {
@@ -14,24 +22,27 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100%;
 
-  @include media(">small") {
+  @include media(">small", "height>small") {
     padding: $space;
-    min-height: 100vh;
+    height: 100vh;
     background: url('../assets/background.png') center center no-repeat;
     background-size: 1360px auto;
-  }
 
-  &::before {
-    content: "";
-    display: block;
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: -1;
-    background-color: $c-pink;
+    &::before {
+      content: "";
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: -1;
+      background-color: $c-pink;
+      overflow: hidden;
+      pointer-events: none;
+    }
   }
 }
 
@@ -39,28 +50,45 @@ a {
   text-align: center;
   position: relative;
 
-  @include media(">small") {
-    &::before {
-      content: "";
-      display: block;
-      position: absolute;
-      pointer-events: none;
-      background: url("../assets/device.svg") center center no-repeat;
-      background-size: $device-width auto;
-      width: $device-width;
-      height: $device-height;
-      top: 0;
-      left: 0;
-      z-index: 1;
-    }
+  @include media("height<=small") {
+    width: 100%;
+  }
+
+  @include media(">small", "height>small") {
+    border-radius: 55px;
+    border: 15px solid $c-black;
 
     &--inner {
       width: $device-width;
       height: $device-height;
+      max-width: 300px;
+      max-height: calc(100vh - #{$space-quad});
       background-color: $c-black;
-      padding: $space;
-      border-radius: 70px;
-      overflow: scroll;
+      border-radius: 40px;
+      overflow-y: auto;
+
+      /* width */
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background-color: $c-pink;
+        box-shadow: inset 0 0 5px transparent;
+        border-radius: 10px;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: $c-red;
+        border-radius: 10px;
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: $c-red;
+      }
     }
   }
 }

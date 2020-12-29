@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath:process.env.NODE_ENV === 'production'? '/2020-revised/': '/'
+  publicPath:process.env.NODE_ENV === 'production'? 'https://cahillscreative.com/2020-revised/' : '/'
 };

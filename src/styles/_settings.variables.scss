@@ -32,14 +32,14 @@ $font-secondary: 'Domaine Display Medium', sans-serif;
  * Common Breakpoints
  */
 $xsmall: 320px;
-$small: 375px;
+$small: 414px;
 $medium: 700px;
 $large: 850px;
 $xlarge: 1000px;
 $xxlarge: 1200px;
 $xxxlarge: 1400px;
 
-$breakpoints: ("xsmall": $xsmall, "small": $small, "medium": $medium, "large": $large, "xlarge": $xlarge, "xxlarge": $xxlarge, "xxxlarge": $xxxlarge);
+$breakpoints: ("device-height": $device-height, "xsmall": $xsmall, "small": $small, "medium": $medium, "large": $large, "xlarge": $xlarge, "xxlarge": $xxlarge, "xxxlarge": $xxxlarge);
 
 /**
  * Animation
@@ -75,7 +75,7 @@ $space-quad: $space * 4;
   --font-size-xl: 38px;
 }
 
-@media screen and (min-width: 375px) {
+@media screen and (min-width: 321px) {
   :root {
     --font-size-s: 14px;
     --font-size-m: 20px;
@@ -84,8 +84,17 @@ $space-quad: $space * 4;
   }
 }
 
+@media screen and (min-width: 415px) {
+  :root {
+    --font-size-s: 13px;
+    --font-size-m: 17px;
+    --font-size-l: 22px;
+    --font-size-xl: 36px;
+  }
+}
+
 $body-font-size: var(--body-font-size, 16px);
-$font-size-s: var(--font-size-s, 14px);
-$font-size-m: var(--font-size-m, 20px);
-$font-size-l: var(--font-size-l, 26px);
-$font-size-xl: var(--font-size-xl, 45px);
+$font-size-s: var(--font-size-s, 13px);
+$font-size-m: var(--font-size-m, 17px);
+$font-size-l: var(--font-size-l, 22px);
+$font-size-xl: var(--font-size-xl, 36px);
