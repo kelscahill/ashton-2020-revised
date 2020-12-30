@@ -27,7 +27,7 @@ a {
   @include media(">small", "height>small") {
     padding: $space;
     height: 100vh;
-    background: url('../assets/background.png') center center no-repeat;
+    background: url("../assets/background.png") center center no-repeat;
     background-size: 1360px auto;
 
     &::before {
@@ -53,6 +53,7 @@ a {
   @include media("height<=small") {
     width: 100%;
   }
+
 
   @include media(">small", "height>small") {
     border-radius: 55px;
