@@ -12,7 +12,7 @@
           </header>
           <div class="c-panel__content">
             <div class="c-panel__content-body u-spacing animate__animated animate__fadeIn animate__slower">
-              <div class="o-heading--m">202<span class="u-xout">0</span> should be left on the cutting room floor. Still, there are a few bright bits worth saving. Some quick <div class="u-underline"><span>revisions</span></div> could make a world of difference for the year ahead.</div>
+              <div class="o-heading--m">202<span class="u-xout">0</span> should be left on the cutting room floor. Still, there are a few bits worth saving. Some quick <div class="u-underline"><span>revisions</span></div> could make a world of difference for the year ahead.</div>
             </div>
             <footer class="c-panel__content-footer">
               <button v-on:click="isHidden = false" class="o-button--primary animate__animated animate__fade-in-up animate__delay-1s">Let's go!</button>
@@ -67,7 +67,6 @@
                 v-if="isRevised"
                 v-on:click="next"
               >{{ quiz.resolutions[resolutionIndex].button_text }}</button>
-              <Branding />
             </footer>
           </div>
         </article>
@@ -83,12 +82,11 @@
           <div class="c-panel__content">
             <div class="c-panel__content-body animate__animated animate__fadeIn">
               <h3 class="o-heading--m">
-                Way to take things from bad to good! We're making your revisions now.<br/><br/>While we compute, Team Ashton would like to wish you a happier, healthier year ahead.
+                Way to take things from bad to good! We're making your revisions now.<br/><br/>In the meantime, Team Ashton would like to wish you a happier, healthier year ahead.
               </h3>
             </div>
             <footer class="c-panel__content-footer">
               <button class="o-button--tertiary animate__animated animate__fade-in-up" v-on:click="resultIsHidden = !resultIsHidden">See your masterpiece</button>
-              <Branding />
             </footer>
           </div>
         </article>
@@ -115,11 +113,12 @@
                 <a target="_blank" :href="'https://www.addtoany.com/add_to/sms?linkurl=' + pageUrl + '&linkname=' + pageTitle">
                   <span class="o-icon"><img src="./assets/icon-sms.png" alt="Message" /></span>Message
                 </a>
-                <a v-on:click="screenshot()">
-                  <span class="o-icon"><img src="./assets/icon-instagram.png" alt="Instagram" /></span>Instagram<span class="o-small">(Download)</span>
+                <a v-on:click="screenshot()" class="o-button__screenshot">
+                  <span class="o-icon"><img src="./assets/icon-instagram.png" alt="Instagram" /></span>
+                  <font>Instagram<br /><span class="o-small">(Download Your Results)</span></font>
                 </a>
               </div>
-              <button class="o-button animate__animated animate__fade-in-up" v-on:click="addClass()">Share Your 2021 Goals</button>
+              <button class="o-button animate__animated animate__fade-in-up" v-on:click="addClass()">Share with your friends</button>
               <Branding />
             </footer>
           </div>
@@ -163,7 +162,7 @@ var quiz = {
     },
     {
       id: 1,
-      statement: "Every night before bed I will",
+      statement: "Every night before bed, I will",
       habit: "<span>binge Netflix</span>",
       button_text: "We feel that. Onward!",
       revisions: [
@@ -191,7 +190,7 @@ var quiz = {
     },
     {
       id: 2,
-      statement: "I like to think of myself as",
+      statement: "This year I’d like to feel more",
       habit: "<span>contagious</span>",
       button_text: "Us too. Next!",
       revisions: [
@@ -207,12 +206,12 @@ var quiz = {
         },
         {
           id: 3,
-          button: "<span>intelligent</span>",
+          button: "<span>inquisitive</span>",
           value: "<span>whip-smart</span>"
         },
         {
           id: 4,
-          button: "<span>healthy</span>",
+          button: "<span>appreciative</span>",
           value: "<span>Covid-free</span>"
         }
       ]
@@ -247,9 +246,9 @@ var quiz = {
     },
     {
       id: 4,
-      statement: "And I’ll try to never run short on",
+      statement: "And I’ll try to never run short on<br/>",
       habit: "<span>toilet paper</span>",
-      button_text: "Wrap it up!",
+      button_text: "Let’s wrap it up",
       revisions: [
         {
           id: 1,
@@ -342,7 +341,7 @@ export default {
         scrollY: -window.scrollY
       }).then(function(canvas) {
         canvas.toBlob(function(blob) {
-          saveAs(blob, "2020-revised.png");
+          saveAs(blob, "2020Revised.png");
         });
       });
     },

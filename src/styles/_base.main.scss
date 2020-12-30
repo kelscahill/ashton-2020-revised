@@ -59,10 +59,10 @@ a {
     border: 15px solid $c-black;
 
     &--inner {
-      width: $device-width;
-      height: $device-height;
-      max-width: 300px;
-      max-height: calc(100vh - #{$space-quad});
+      width: 100%;
+      height: calc(100vh - #{$space-quad});
+      max-width: $device-width;
+      max-height: $device-height;
       background-color: $c-black;
       border-radius: 40px;
       overflow-y: auto;

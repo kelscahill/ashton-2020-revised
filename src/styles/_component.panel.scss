@@ -44,7 +44,7 @@
     justify-content: space-between;
     align-items: center;
     flex-basis: 50vh;
-    padding: $space;
+    padding: $space-double $space;
 
     @include media("height>device-height") {
       flex-basis: calc((#{$device-height} - #{$space-double}) / 2);
@@ -86,7 +86,13 @@
 
   .c-panel__content {
     background-color: $c-pink;
-    padding: $space-double $space $space $space;
+    padding: $space;
+
+    &-body {
+      display: flex;
+      flex: 1;
+      align-items: center;
+    }
   }
 
   .u-underline span {
@@ -118,6 +124,7 @@
 
   .o-habit {
     font-family: $font-secondary;
+    font-weight: 500;
 
     span {
       @include animate__fade-in-up;
@@ -154,10 +161,6 @@
       display: none;
     }
   }
-
-  &.is-revised {
-    background-color: $c-maroon;
-  }
 }
 
 @for $i from 1 to 10 {
@@ -183,6 +186,7 @@
 
     h2 {
       font-family: $font-secondary;
+      font-weight: 500;
       color: $c-red;
       text-align: center;
     }
@@ -191,10 +195,6 @@
       max-width: 80px;
       margin-top: $space;
     }
-  }
-
-  .c-panel__content {
-    padding-top: $space-double;
   }
 
   .c-panel__content-body {
@@ -223,6 +223,7 @@
 
   .c-panel__content {
     flex-basis: auto;
+    padding-bottom: $space;
   }
 }
 
@@ -335,6 +336,7 @@
   justify-content: center;
   color: $c-red;
   font-size: $font-size-s;
+  text-decoration: none;
 
   svg {
     width: 45px;
@@ -412,7 +414,7 @@ button + .o-branding {
   left: 0;
   bottom: 0;
   background-color: $c-pink;
-  padding: $space-half 0;
+  padding: $space 0 0 0;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   overflow: hidden;
@@ -472,6 +474,16 @@ button + .o-branding {
     }
   }
 
+  .o-button__screenshot {
+    background-color: rgba($c-white, 0.5);
+    padding-bottom: 30px;
+
+    &::after {
+      top: 11px;
+      bottom: auto;
+    }
+  }
+
   .o-icon {
     width: 30px;
     height: 30px;
@@ -489,7 +501,7 @@ button + .o-branding {
 
   .o-small {
     font-size: $font-size-s;
-    position: relative;
-    top: 2px;
+    line-height: 1.4;
+    display: block;
   }
 }
