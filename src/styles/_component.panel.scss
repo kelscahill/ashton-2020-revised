@@ -7,7 +7,9 @@
   justify-content: space-between;
   background-color: $c-maroon;
   min-height: 100vh;
+  min-height: -moz-available;
   min-height: -webkit-fill-available;
+  min-height: fill-available;
 
   @include media(">small", "height>small") {
     height: auto;
@@ -59,7 +61,6 @@
 
     &-footer {
       width: 100%;
-      padding: 0 $space;
     }
   }
 
@@ -249,6 +250,8 @@
       @include u-underline;
 
       line-height: 1.2;
+      font-family: $font-secondary;
+      font-weight: 500;
     }
   }
 
@@ -297,13 +300,19 @@
     }
 
     .u-underline {
-      @include media("<=small") {
-        display: contents;
+      display: contents;
+      line-height: 1;
+
+      span {
         line-height: 0.7;
 
-        &::before {
-          display: none;
+        @include media('>small') {
+          line-height: 1.2;
         }
+      }
+
+      span::before {
+        display: none;
       }
     }
   }

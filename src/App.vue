@@ -246,8 +246,8 @@ var quiz = {
     },
     {
       id: 4,
-      statement: "And I’ll try to never run short on<br/>",
-      habit: "<span>toilet paper</span>",
+      statement: "And I’ll try to never run short on",
+      habit: "<span>toilet</span><span>paper</span>",
       button_text: "Let’s wrap it up",
       revisions: [
         {
@@ -257,8 +257,8 @@ var quiz = {
         },
         {
           id: 2,
-          button: "<span>funny memes</span>",
-          value: "<span>funny memes</span>"
+          button: "<span>funny</span><span>memes</span>",
+          value: "<span>funny</span><span>memes</span>"
         },
         {
           id: 3,
@@ -267,8 +267,8 @@ var quiz = {
         },
         {
           id: 4,
-          button: "<span>USPS stamps</span>",
-          value: "<span>USPS stamps</span>"
+          button: "<span>USPS</span><span>stamps</span>",
+          value: "<span>USPS</span><span>stamps</span>"
         }
       ]
     }
@@ -323,8 +323,9 @@ export default {
       document.getElementById("social-share").classList.add('is-active');
     },
     revise(index, resolutionIndex) {
+      var id = resolutionIndex + '-' + index;
+      document.getElementById("o-revision--" + id).classList.add('is-active');
       setTimeout(() => {
-        var id = resolutionIndex + '-' + index;
         this.selectedIndex = index;
         this.isRevised = true;
         this.results.button[resolutionIndex] = document.getElementById("o-revision--" + id).dataset.button;
