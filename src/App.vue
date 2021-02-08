@@ -212,7 +212,7 @@ var quiz = {
         {
           id: 4,
           button: "<span>appreciative</span>",
-          value: "<span>Covid-free</span>"
+          value: "<span>grateful</span>"
         }
       ]
     },
@@ -297,7 +297,7 @@ export default {
       resultIsHidden: true,
       isHidden: true,
       isRevised: false,
-      pageUrl: 'https://cahillscreative.com/2020-revised/',
+      pageUrl: 'https://ashton-design.com/2020Revised/',
       pageTitle: "Revise your 2020!",
       results: {
         button: [],
